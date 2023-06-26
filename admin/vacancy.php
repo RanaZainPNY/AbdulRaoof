@@ -124,14 +124,14 @@
 			method:'POST',
 			data:{id:$id},
 			success:function(resp){
-				console.log(resp);
-				// if(resp==1){
-				// 	alert_toast("Data successfully deleted",'success')
-				// 	setTimeout(function(){
-				// 		location.reload()
-				// 	},1500)
+				// console.log(resp);
+				if(resp==1){
+					alert_toast("Data successfully deleted",'success')
+					setTimeout(function(){
+						location.reload()
+					},1500)
 
-				// }
+				}
 			}
 		})
 	}

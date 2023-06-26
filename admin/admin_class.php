@@ -224,47 +224,28 @@ class Action
 	function delete_vacancy()
 	{
 		extract($_POST);
-		// extract data from id 
-		// $row = $this->db->query("SELECT * FROM vacancy where id = " . $id);
 
-		// $sql = "SELECT * FROM `vacancy` where id = ?";
-		// $stmt = $this->db->prepare($sql);
-		// $stmt->bind_param("i", $id);
-		// $stmt->execute();
-		// $result = $stmt->get_result();
+		$query = "SELECT * FROM vacancy where id = " . $id;
+		$result = mysqli_query($this->db, $query);
 
-		// return json_encode($result);
-		// if ($result->num_rows > 0) {
+		if ($result) {
+			$numRows = mysqli_num_rows($result);
+			// echo "Number of rows: " . $numRows;
+			$row = $result->fetch_assoc();
+			$imageName = $row['image'];
+			// Deleting the image file from the folder
+			$imagePath = 'assets/img/' . $imageName;
+			if (file_exists($imagePath)) {
+				unlink($imagePath);
+				// echo "Image '$imageName' deleted successfully.<br>";
+			} else {
+				// echo "Image '$imageName' does not exist.<br>";
+			}
+		} else {
+			echo "Query execution failed: " . mysqli_error($this->db);
+		}
 
-		// }
-		// $query = "SELECT * FROM your_table";
-		// $result = mysqli_query($connection, $query);
-
-		// if ($result) {
-		// 	$numRows = mysqli_num_rows($result);
-		// 	echo "Number of rows: " . $numRows;
-		// } else {
-		// 	echo "Query execution failed: " . mysqli_error($connection);
-		// }
-
-
-		// return json_encode($row);
-		// if ($row) {
-		// 	$imageName = $row->image;
-		// 	// Rest of your code...
-		// 	// Deleting the image file from the folder
-		// 	$imagePath = 'admin/assets/img/' . $imageName;
-		// 	if (file_exists($imagePath)) {
-		// 		unlink($imagePath);
-		// 		echo "Image '$imageName' deleted successfully.<br>";
-		// 	} else {
-		// 		echo "Image '$imageName' does not exist.<br>";
-		// 	}
-		// } else {
-		// 	echo "No vacancy found with ID: $id";
-		// }
-		// deleting from database 
-
+		// deleting record from data base
 		$delete = $this->db->query("DELETE FROM vacancy where id = " . $id);
 
 		if ($delete)
